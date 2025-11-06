@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Tic Tac Toe — GamesCC (Clone)</title>
+<style>
+  :root{
+    --bg:#0f1724;
+    --card:#0b1320;
+    --accent:#06b6d4;
+    --muted:#94a3b8;
+    --win:#22c55e;
+    --danger:#ef4444;
+    --glass: rgba(255,255,255,0.03);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg,#071022 0%, #071827 60%);
+    color:#e6eef6;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+
+  .app{
+    width:100%;
+    max-width:920px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:16px;
+    box-shadow: 0 8px 30px rgba(2,6,23,0.7);
+    overflow:hidden;
+    display:grid;
+    grid-template-columns: 360px 1fr;
+    gap:20px;
+    padding:20px;
+  }
+
+  @media (max-width:880px){
+    .app{grid-template-columns:1fr; padding:16px}
+  }
+
+  /* Left panel: controls */
+  .panel{
+    background:var(--card);
+    border-radius:12px;
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .brand{
+    display:flex;
+    gap:12px;
+    align-items:center;
+  }
+  .logo{
+    width:52px;
+    height:52px;
+    background:linear-gradient(135deg,var(--accent),#60a5fa);
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:18px;
+    color:#021024;
+    box-shadow:0 6px 18px rgba(6,182,212,0.14);
+  }
+  h1{font-size:18px; margin:0}
+  p.muted{color:var(--muted); font-size:13px; margin:0}
+
+  .row{display:flex; gap:8px; align-items:center}
+  label{font-size:13px; color:var(--muted)}
+  input[type="text"]{
+    width:100%;
+    padding:10px 12px;
+    border-radius:8px;
+    border:1px solid rgba(255,255,255,0.04);
+    background:var(--glass);
+    color:inherit;
+    outline:none;
+    font-size:14px;
+  }
+
+  .modes{display:flex; gap:8px}
+  .mode-btn{
+    flex:1;
+    padding:10px 12px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.04);
+    background:transparent;
+    color:var(--muted);
+    cursor:pointer;
+    font-weight:600;
+  }
+  .mode-btn.active{
+    background:linear-gradient(90deg, rgba(6,182,212,0.12), rgba(96,165,250,0.06));
+    color:var(--accent);
+    box-shadow: inset 0 0 18px rgba(6,182,212,0.02);
+  }
+
+  .scoreboard{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-top:6px;
+  }
+  .score-card{
+    padding:10px;
+    border-radius:10px;
+    background:rgba(255,255,255,0.01);
+    text-align:center;
+  }
+  .score-card .num{font-size:20px; font-weight:700}
+  .score-card .lbl{font-size:12px; color:var(--muted)}
+
+  .controls{display:flex; gap:8px}
+  button.btn{
+    padding:10px 12px;
+    border-radius:10px;
+    border:0;
+    cursor:pointer;
+    font-weight:700;
+  }
+  button.primary{background:linear-gradient(90deg,var(--accent),#60a5fa); color:#021024}
+  button.ghost{background:transparent; border:1px solid rgba(255,255,255,0.04); color:var(--muted)}
+
+  /* Right panel: board */
+  .board-card{
+    background:var(--card);
+    border-radius:12px;
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .status{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .status .turn{
+    font-weight:700;
+  }
+  .board{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:10px;
+    width:100%;
+    aspect-ratio:1/1;
+    max-width:520px;
+    margin:0 auto;
+  }
+  .cell{
+    background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.2));
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:46px;
+    user-select:none;
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease;
+    box-shadow: 0
